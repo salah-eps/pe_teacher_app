@@ -1,57 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'views/classes_view.dart';
 
 void main() async {
+  // 1. تأكيد تهيئة محرك فلاتر قبل أي عملية أخرى
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // تحميل ملف البيئة .env
-  await dotenv.load(fileName: ".env");
 
-  // تهيئة الاتصال بـ Supabase
-  await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
-  );
+  // 2. محاولة الاتصال بـ Supabase مع حماية التطبيق من التجمُّد عند انقطاع النت
+  try {
+    await Supabase.initialize(
+      url: 'https://YOUR_SUPABASE_PROJECT_URL.supabase.co', // ضع رابط Supabase الخاص بك هنا
+      anonKey: 'YOUR_SUPABASE_ANON_KEY', // ضع مفتاح Anon الخاص بك هنا
+    );
+  } catch (e) {
+    debugPrint('Supabase Init Error: $e');
+  }
 
-  runApp(const PETeacherApp());
+  runApp(const MyApp());
 }
 
-class PETeacherApp extends StatelessWidget {
-  const PETeacherApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'تطبيق أستاذ التربية البدنية',
+      title: 'مساعد أستاذ التربية البدنية',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: const MainHomeScreen(),
+      home: const ClassesView(),
     );
   }
 }
-
-class MainHomeScreen extends StatelessWidget {
-  const MainHomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('دليل أستاذ التربية البدنية'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'مرحباً بك في التطبيق!\nتم الاتصال بقاعدة البيانات بنجاح.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18),
-        ),
-      ),
-    );
-  }
-}
-
