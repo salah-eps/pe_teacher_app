@@ -3,14 +3,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'views/classes_view.dart';
 
 void main() async {
-  // 1. تأكيد تهيئة محرك فلاتر قبل أي عملية أخرى
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 2. محاولة الاتصال بـ Supabase مع حماية التطبيق من التجمُّد عند انقطاع النت
   try {
     await Supabase.initialize(
-      url: 'https://YOUR_SUPABASE_PROJECT_URL.supabase.co', // ضع رابط Supabase الخاص بك هنا
-      anonKey: 'YOUR_SUPABASE_ANON_KEY', // ضع مفتاح Anon الخاص بك هنا
+      url: 'https://hjboexpouhrhnujejeen.supabase.co',
+      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhqYm9leHBvdWhyaG51andqZW9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgxMjA5NDMsImV4cCI6MjEwMzY5Njk0M30.zwLgQo5HGWR7BKcnjtoME3pWkNIcFKvtce3d1oONOpg',
     );
   } catch (e) {
     debugPrint('Supabase Init Error: $e');
