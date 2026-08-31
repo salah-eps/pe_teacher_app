@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'students_view.dart';
 
 class ClassesView extends StatefulWidget {
   const ClassesView({super.key});
@@ -26,7 +27,6 @@ class _ClassesViewState extends State<ClassesView> {
       });
       _classNameController.clear();
       if (mounted) Navigator.pop(context);
-      setState(() {});
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -108,7 +108,15 @@ class _ClassesViewState extends State<ClassesView> {
                   subtitle: Text('الموسم: ${item['academic_year']}'),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    // سيتم توجيهه لصفحة قائمة تلاميذ هذا القسم
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StudentsView(
+                          classId: item['id'].toString(),
+                          className: item['class_name'] ?? '',
+                        ),
+                      ),
+                    );
                   },
                 ),
               );
